@@ -2,6 +2,7 @@ import React, { useState, useEffect, useMemo, useRef } from "react";
 import _ from "lodash";
 
 import ShowResults from "./ShowResults";
+import QuizInProgress from "./QuizInProgress";
 import "./Quiz.css";
 
 //Function for generating a question-Answer pair
@@ -32,6 +33,7 @@ const generateQuestionAnswer = (maxOperand) => {
 };
 
 export default function Quiz({ updateScore, uniqueKey }) {
+  //localStates
   const [numberOfQuestions, setNumberOfQuestions] = useState(3);
   const [maxOperand, setMaxOperand] = useState(10);
   const [isGameInProgress, setGameInProgress] = useState(false);
@@ -43,7 +45,7 @@ export default function Quiz({ updateScore, uniqueKey }) {
   ]);
   let timer;
 
-  //Get state to localStorage
+  //Get state from localStorage in case of refresh
   useEffect(() => {
     let quesAns = localStorage.getItem(`${uniqueKey}-question-answer-set`);
     if (quesAns) {
@@ -152,33 +154,14 @@ export default function Quiz({ updateScore, uniqueKey }) {
                 numberOfQuestions={numberOfQuestions}
               />
             ) : (
-              <div className="quesAns">
-                <div className="ques">
-                  Q{questionWithAnswer.length + 1}. What is &nbsp;
-                  {currentQuestion?.question} ? &nbsp;
-                  <form onSubmit={(e) => handleSubmit(e)}>
-                    <input
-                      ref={inputRef}
-                      type="text"
-                      required
-                      minLength="1"
-                      maxLength="5"
-                    />
-
-                    <input
-                      type="submit"
-                      value={
-                        numberOfQuestions - (questionWithAnswer.length + 1)
-                          ? "Next"
-                          : "Finish"
-                      }
-                    />
-                  </form>{" "}
-                </div>
-                <br />
-                <br />
-                <div>Current Score : {score}</div>
-              </div>
+              <QuizInProgress
+                questionNumber={questionWithAnswer.length}
+                question={currentQuestion?.question}
+                numberOfQuestions={numberOfQuestions}
+                score={score}
+                inputRef={inputRef}
+                handleSubmit={(e) => handleSubmit(e)}
+              />
             )}
           </div>
         </div>
