@@ -1,0 +1,26 @@
+
+.quizConditions {
+  border: solid black 2px;
+  padding: 50px;
+    width: 25vw;
+  justify-content: first;
+  width: 25vw;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  flex-direction: column;
+}
+
+
+.quesAns {
+  border: solid black 2px;
+  padding: 50px;
+  width: 25vw;
+  width: 25vw;
+}
+
+.ques {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}

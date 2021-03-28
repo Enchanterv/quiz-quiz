@@ -1,20 +1,35 @@
-export default function ShowResults({ questionWithAnswer }) {
+import _ from "lodash";
+export default function ShowResults({ questionWithAnswer, numberOfQuestions }) {
   const score =
-    questionWithAnswer.filter((q) => q.result).length +
+    _.uniqBy(questionWithAnswer, (e) => e.question).filter((q) => q.result)
+      .length +
     " out of " +
-    questionWithAnswer.length;
+    _.uniqBy(questionWithAnswer, (e) => e.question).length;
 
-  const questionSet = questionWithAnswer.map((qA, index) => (
-    <div key={index} style={qA.result ? { color: "green" } : { color: "red" }}>
-      Q{index} : {qA.question} = {qA.answer}
-    </div>
-  ));
+  const questionSet = _.uniqBy(questionWithAnswer, (e) => e.question).map(
+    (qA, index) => (
+      <div
+        key={index}
+        style={qA.result ? { color: "green" } : { color: "red" }}
+      >
+        Q{index} : {qA.question} = {qA.answer}
+      </div>
+    )
+  );
+
   return (
     <>
       <div> "Game Finished"</div>
-      <div style={{ border: "solid black 2px" }}> ScoreCard </div>
-      {questionSet}
-      <div>YourScore : {score}</div>
+      {questionSet.length === numberOfQuestions ? (
+        <>
+          {" "}
+          <div style={{ border: "solid black 2px" }}> ScoreCard </div>
+          {questionSet}
+          <div>YourScore : {score}</div>
+        </>
+      ) : (
+        <span>Processing...</span>
+      )}
     </>
   );
 }

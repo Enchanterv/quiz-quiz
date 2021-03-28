@@ -1,4 +1,5 @@
-import React, { useState, useMemo, useEffect } from "react";
+import React, { useState} from "react";
+import Note from "./Note";
 import Quiz from "./Quiz";
 import "./App.css";
 
@@ -18,13 +19,17 @@ function App() {
 
   return (
     <div className="game">
-      <div>
-        Cumulative Score : {result.score1 + result.score2} out of{" "}
-        {result.total1 + result.total2}
+      <div
+        style={{ display: "flex", alignSelf: "flex-end", paddingRight: "10px" }}
+      >
+        Cumulative Score : {result.score1 + result.score2}
+        <br />
+        Questions Answered : {result.total1 + result.total2}
       </div>
+      <Note />
       <div className="quizSet">
-        <Quiz key="quiz1" updateScore={onUpdateScore} />
-     {/*    <Quiz key="quiz" updateScore={onUpdateScore1} /> */}
+        <Quiz uniqueKey="quiz1" updateScore={onUpdateScore} />
+        {<Quiz uniqueKey="qui2" updateScore={onUpdateScore1} />}
       </div>
     </div>
   );
